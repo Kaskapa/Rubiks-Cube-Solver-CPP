@@ -300,34 +300,6 @@ private:
 };
 
 int main(){
-    // int startTime = clock();
-    // std::ios_base::sync_with_stdio(false);
-
-    // std::vector<Corner> corners = {Corner::URF, Corner::UFL, Corner::ULB};
-    // std::vector<Edge> edges = {Edge::FR, Edge::FL, Edge::BL};
-
-    // CubieCube cube = CubieCube(corners, edges);
-    // std::string scramble = "L' B' D F L2 D2 R' U' B2 L D B2 R F L2 U2 F' R U B R'";
-    // std::string crossSolution = "F2 R B' U B L'";
-    // std::string f2lSolution = "R2 D L2 U' B2 U L D L";
-    // std::string f2lSolution2 = "F' D' F B2 U' L2 U D B D' B2";
-    // cube = do_algorithm(scramble, cube);
-    // cube = do_algorithm(crossSolution, cube);
-    // cube = do_algorithm(f2lSolution, cube);
-    // cube = do_algorithm(f2lSolution2, cube);
-    // IDA_star_F2L ida_star_cross = IDA_star_F2L(corners, edges, "012", "8910");
-    // std::vector<int> solution = ida_star_cross.run(cube);
-
-    // for (int action : solution) {
-    //     std::cout << ACTIONS.at(action) << " ";
-    // }
-    // std::cout << '\n';
-
-    // int endTime = clock();
-    // std::cout << "Time: " << (endTime - startTime) / (double) CLOCKS_PER_SEC << '\n';
-
-    // return 0;
-
     std::string scramble = "D' F2 U2 L B D' R' F' L U' F' L' U' B2 D F2 R D L F U' L' F";
     std::string crossSolution = "F B' R F D B2";
 
@@ -343,13 +315,11 @@ int main(){
     std::vector<std::array<Corner, 4>> f2l_corners_combinations;
     std::vector<std::array<Edge, 4>> f2l_edges_combinations;
 
-    // Generate permutations for corners
     std::array<Corner, 4> corners = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR};
     do {
         f2l_corners_combinations.push_back(corners);
     } while (std::next_permutation(corners.begin(), corners.end()));
 
-    // Generate permutations for edges
     std::array<Edge, 4> edges = {Edge::FR, Edge::FL, Edge::BL, Edge::BR};
     do {
         f2l_edges_combinations.push_back(edges);
@@ -384,8 +354,6 @@ int main(){
                     cube.move(f2l_sol[k][l], MOVE_CUBE[f2l_sol[k][l]]);
                 }
             }
-
-            // You left of here where you did something but at the moment I can't remember oh wait Corner and edge strings for the heuristics
 
             std::vector<int> cornerStr, edgeStr;
 
