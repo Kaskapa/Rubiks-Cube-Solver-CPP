@@ -1,3 +1,5 @@
+#ifndef IDASTARF2L_H
+#define IDASTARF2L_H
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -448,3 +450,5 @@ std::vector<std::vector<std::vector<int>>> getSolutions(std::string scramble, st
 
 //     return 0;
 // };
+
+#endif

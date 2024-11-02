@@ -1,0 +1,1 @@
+/sbin/c++  -O3 CMakeFiles/cpprestserver.dir/cpprestserver.cpp.o -o "/home/dogcoin/Documents/Coding shit/Rubiks-Cube-Solver-CPP/cpprestserver"  -Wl,-rpath,/usr/local/lib /usr/local/lib/libserved.so

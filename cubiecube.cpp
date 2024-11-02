@@ -434,7 +434,7 @@ public:
         epf = edge_f2l_perm;
     }
 
-    void move(int i, CubieCube b) {
+    void move(CubieCube b) {
         corner_multiply(b);
         edge_multiply(b);
     }
@@ -517,98 +517,6 @@ public:
 
     std::array<int, 8> get_cof() const {
         return cof;
-    }
-
-    void print_co(const std::array<int, 8>& co) {
-        for (int i = 0; i < 8; ++i) {
-            std::cout << co[i] << " ";
-        }
-    }
-
-    void print_ep(const std::array<Edge, 12>& ep) {
-        for (int i = 0; i < 12; ++i) {
-            switch(ep[i]){
-                case Edge::UR:
-                    std::cout << "UR ";
-                    break;
-                case Edge::UF:
-                    std::cout << "UF ";
-                    break;
-                case Edge::UL:
-                    std::cout << "UL ";
-                    break;
-                case Edge::UB:
-                    std::cout << "UB ";
-                    break;
-                case Edge::DR:
-                    std::cout << "DR ";
-                    break;
-                case Edge::DF:
-                    std::cout << "DF ";
-                    break;
-                case Edge::DL:
-                    std::cout << "DL ";
-                    break;
-                case Edge::DB:
-                    std::cout << "DB ";
-                    break;
-                case Edge::FR:
-                    std::cout << "FR ";
-                    break;
-                case Edge::FL:
-                    std::cout << "FL ";
-                    break;
-                case Edge::BL:
-                    std::cout << "BL ";
-                    break;
-                case Edge::BR:
-                    std::cout << "BR ";
-                    break;
-                default:
-                    std::cout << "-1 ";
-                    break;
-            }
-        }
-    }
-
-    void print_eo(const std::array<int, 12>& eo) {
-        for (int i = 0; i < 12; ++i) {
-            std::cout << eo[i] << " ";
-        }
-    }
-
-    void print_cp(const std::array<Corner, 8>& cp) {
-        for (int i = 0; i < 8; ++i) {
-            switch(cp[i]){
-                case Corner::URF:
-                    std::cout << "URF ";
-                    break;
-                case Corner::UFL:
-                    std::cout << "UFL ";
-                    break;
-                case Corner::ULB:
-                    std::cout << "ULB ";
-                    break;
-                case Corner::UBR:
-                    std::cout << "UBR ";
-                    break;
-                case Corner::DFR:
-                    std::cout << "DFR ";
-                    break;
-                case Corner::DLF:
-                    std::cout << "DLF ";
-                    break;
-                case Corner::DBL:
-                    std::cout << "DBL ";
-                    break;
-                case Corner::DRB:
-                    std::cout << "DRB ";
-                    break;
-                default:
-                    std::cout << "-1 ";
-                    break;
-            }
-        }
     }
 
 private:

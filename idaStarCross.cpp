@@ -213,17 +213,16 @@ private:
     }
 };
 
-// int main(){
-//     // CubieCube cube = CubieCube();
-//     // std::string scramble = "L' B' D F L2 D2 R' U' B2 L D B2 R F L2 U2 F' R U B R'";
-//     // cube = do_algorithm(scramble, cube);
-//     // IDA_star_cross ida_star_cross = IDA_star_cross();
-//     // std::vector<int> solution = ida_star_cross.run(cube);
+std::vector<int> getCrossSolution(std::string scramble){
+    CubieCube cube = CubieCube();
+    cube = do_algorithm(scramble, cube);
+    IDA_star_cross ida_star_cross = IDA_star_cross();
+    std::vector<int> solution = ida_star_cross.run(cube);
 
-//     // for (int action : solution) {
-//     //     std::cout << ACTIONS.at(action) << " ";
-//     // }
-//     // std::cout << std::endl;
+    for (int action : solution) {
+        std::cout << ACTIONS.at(action) << " ";
+    }
+    std::cout << std::endl;
 
-//     // return 0;
-// };
+    return solution;
+};
