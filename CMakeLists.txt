@@ -7,8 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
-
-add_executable(cpprestserver cpprestserver.cpp)
+add_executable(cpprestserver cpprestserver.cpp cubiecube.cpp solver_common.cpp tableloader.cpp idaStarF2l.cpp idaStarCross.cpp)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SERVED_PKG REQUIRED IMPORTED_TARGET served)

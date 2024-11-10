@@ -1,14 +1,4 @@
-#include <set>
-#include <cstdint>
-#include <iostream>
-#include <array>
-#include <array>
-#include "pieces.h"
-#include <string>
-#include <algorithm>
-#include <vector>
-#ifndef CUBIECUBE_H
-#define CUBIECUBE_H
+#include "cubiecube.h"
 
 const std::array<Corner, 8> _cpU = {
     Corner::UBR ,Corner::URF, Corner::UFL, Corner::ULB,
@@ -310,229 +300,211 @@ const std::array<Edge, 12> _edges = {
 
 const std::set<Edge> _edgesCross_set = {Edge::UF, Edge::UR, Edge::UL, Edge::UB};
 
-class CubieCube {
-public:
-    CubieCube(const std::vector<Corner>& corners = {}, const std::vector<Edge>& edges = {}) {
-        this->cp = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR, Corner::DFR, Corner::DLF, Corner::DBL, Corner::DRB};
-        this->co = {0, 0, 0, 0, 0, 0, 0, 0};
-        if (!corners.empty()) {
-            for (int i = 0; i < 8; ++i) {
-                this->cpf[i] = (std::find(corners.begin(), corners.end(), _corners[i]) != corners.end()) ? _corners[i] : Corner(-1);
-                this->cof[i] = (std::find(corners.begin(), corners.end(), _corners[i]) != corners.end()) ? 0 : -1;
-            }
-            this->corners = corners;
-        } else {
-            this->cpf = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR, Corner(-1), Corner(-1), Corner(-1), Corner(-1)};
-            this->cof = {0, 0, 0, 0, -1, -1, -1, -1};
-            this->corners = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR};
-        }
-
-        this->ep = {Edge::UR, Edge::UF, Edge::UL, Edge::UB, Edge::DR, Edge::DF, Edge::DL, Edge::DB, Edge::FR, Edge::FL, Edge::BL, Edge::BR};
-        this->eo = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        this->epc = {Edge::UR, Edge::UF, Edge::UL, Edge::UB, Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1)};
-        this->eoc = {0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1};
-
-        if (!edges.empty()) {
-            for (int i = 0; i < 12; ++i) {
-                this->epf[i] = (std::find(edges.begin(), edges.end(), _edges[i]) != edges.end()) ? _edges[i] : Edge(-1);
-                this->eof[i] = (std::find(edges.begin(), edges.end(), _edges[i]) != edges.end()) ? 0 : -1;
-            }
-            this->edges = edges;
-        } else {
-            this->epf = {Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge::FR, Edge::FL, Edge::BL, Edge::BR};
-            this->eof = {-1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0};
-            this->edges = {Edge::BL, Edge::BR, Edge::FR, Edge::FL};
-        }
-
-    }
-
-    CubieCube(const CubieCube& other) {
-        *this = other;
-    }
-
-    void corner_multiply(const CubieCube& b) {
-        std::array<Corner, 8> corner_perm;
-        std::array<int, 8> corner_ori;
-
+CubieCube::CubieCube(const std::vector<Corner>& corners, const std::vector<Edge>& edges) {
+    this->cp = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR, Corner::DFR, Corner::DLF, Corner::DBL, Corner::DRB};
+    this->co = {0, 0, 0, 0, 0, 0, 0, 0};
+    if (!corners.empty()) {
         for (int i = 0; i < 8; ++i) {
-            corner_perm[i] = cp[static_cast<int>(b.cp[i])];
-            corner_ori[i] = (co[static_cast<int>(b.cp[i])] + b.co[i]) % 3;
+            this->cpf[i] = (std::find(corners.begin(), corners.end(), _corners[i]) != corners.end()) ? _corners[i] : Corner(-1);
+            this->cof[i] = (std::find(corners.begin(), corners.end(), _corners[i]) != corners.end()) ? 0 : -1;
         }
-
-        cp = corner_perm;
-        co = corner_ori;
-
-        std::array<Corner, 8> corner_f2l_perm = {Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1)};
-        std::array<int, 8> corner_f2l_ori = {-1, -1, -1, -1, -1, -1, -1, -1};
-
-        int f2l_i = 0;
-
-        for (int i = 0; i < 8; ++i) {
-            if (f2l_i == corners.size()) {
-                break;
-            }
-
-            Corner cp_i = corner_perm[i];
-            int co_i = corner_ori[i];
-
-            if (std::find(corners.begin(), corners.end(), cp_i) != corners.end()) {
-                corner_f2l_perm[i] = cp_i;
-                corner_f2l_ori[i] = co_i;
-                ++f2l_i;
-            }
-        }
-
-        cof = corner_f2l_ori;
-        cpf = corner_f2l_perm;
+        this->corners = corners;
+    } else {
+        this->cpf = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR, Corner(-1), Corner(-1), Corner(-1), Corner(-1)};
+        this->cof = {0, 0, 0, 0, -1, -1, -1, -1};
+        this->corners = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR};
     }
 
-    void edge_multiply(const CubieCube& b) {
-        std::array<Edge, 12> edge_perm;
-        std::array<int, 12> edge_ori;
+    this->ep = {Edge::UR, Edge::UF, Edge::UL, Edge::UB, Edge::DR, Edge::DF, Edge::DL, Edge::DB, Edge::FR, Edge::FL, Edge::BL, Edge::BR};
+    this->eo = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    this->epc = {Edge::UR, Edge::UF, Edge::UL, Edge::UB, Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1)};
+    this->eoc = {0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1};
 
+    if (!edges.empty()) {
         for (int i = 0; i < 12; ++i) {
-            edge_perm[i] = ep[static_cast<int>(b.ep[i])];
-            edge_ori[i] = (eo[static_cast<int>(b.ep[i])] + b.eo[i]) % 2;
+            this->epf[i] = (std::find(edges.begin(), edges.end(), _edges[i]) != edges.end()) ? _edges[i] : Edge(-1);
+            this->eof[i] = (std::find(edges.begin(), edges.end(), _edges[i]) != edges.end()) ? 0 : -1;
+        }
+        this->edges = edges;
+    } else {
+        this->epf = {Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge::FR, Edge::FL, Edge::BL, Edge::BR};
+        this->eof = {-1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0};
+        this->edges = {Edge::BL, Edge::BR, Edge::FR, Edge::FL};
+    }
+}
+
+CubieCube::CubieCube(const CubieCube& other) {
+    *this = other;
+}
+
+void CubieCube::corner_multiply(const CubieCube& b) {
+    std::array<Corner, 8> corner_perm;
+    std::array<int, 8> corner_ori;
+
+    for (int i = 0; i < 8; ++i) {
+        corner_perm[i] = cp[static_cast<int>(b.cp[i])];
+        corner_ori[i] = (co[static_cast<int>(b.cp[i])] + b.co[i]) % 3;
+    }
+
+    cp = corner_perm;
+    co = corner_ori;
+
+    std::array<Corner, 8> corner_f2l_perm = {Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1), Corner(-1)};
+    std::array<int, 8> corner_f2l_ori = {-1, -1, -1, -1, -1, -1, -1, -1};
+
+    int f2l_i = 0;
+
+    for (int i = 0; i < 8; ++i) {
+        if (f2l_i == corners.size()) {
+            break;
         }
 
-        eo = edge_ori;
-        ep = edge_perm;
+        Corner cp_i = corner_perm[i];
+        int co_i = corner_ori[i];
 
-        std::array<Edge, 12> edge_cross_perm = {Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1)};
-        std::array<int, 12> edge_cross_ori = {-1, -1, -1 ,-1, -1, -1, -1, -1, -1, -1, -1, -1};
-        std::array<Edge, 12> edge_f2l_perm = {Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1)};
-        std::array<int, 12> edge_f2l_ori = {-1, -1, -1 ,-1, -1, -1, -1, -1, -1, -1, -1, -1};
+        if (std::find(corners.begin(), corners.end(), cp_i) != corners.end()) {
+            corner_f2l_perm[i] = cp_i;
+            corner_f2l_ori[i] = co_i;
+            ++f2l_i;
+        }
+    }
 
-        int cross_i = 0;
-        int f2l_i = 0;
-        int self_edges_len = edges.size();
+    cof = corner_f2l_ori;
+    cpf = corner_f2l_perm;
+}
 
-        for (int i = 0; i < 12; ++i) {
-            if (cross_i == 4 && f2l_i == self_edges_len) {
-                break;
-            }
+void CubieCube::edge_multiply(const CubieCube& b) {
+    std::array<Edge, 12> edge_perm;
+    std::array<int, 12> edge_ori;
 
-            Edge ep_i = edge_perm[i];
-            int eo_i = edge_ori[i];
+    for (int i = 0; i < 12; ++i) {
+        edge_perm[i] = ep[static_cast<int>(b.ep[i])];
+        edge_ori[i] = (eo[static_cast<int>(b.ep[i])] + b.eo[i]) % 2;
+    }
 
-            if (_edgesCross_set.find(ep_i) != _edgesCross_set.end()) {
-                edge_cross_perm[i] = ep_i;
-                edge_cross_ori[i] = eo_i;
-                ++cross_i;
-            }
+    eo = edge_ori;
+    ep = edge_perm;
 
-            if (std::find(edges.begin(), edges.end(), ep_i) != edges.end()) {
-                edge_f2l_perm[i] = ep_i;
-                edge_f2l_ori[i] = eo_i;
-                ++f2l_i;
-            }
+    std::array<Edge, 12> edge_cross_perm = {Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1)};
+    std::array<int, 12> edge_cross_ori = {-1, -1, -1 ,-1, -1, -1, -1, -1, -1, -1, -1, -1};
+    std::array<Edge, 12> edge_f2l_perm = {Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1), Edge(-1)};
+    std::array<int, 12> edge_f2l_ori = {-1, -1, -1 ,-1, -1, -1, -1, -1, -1, -1, -1, -1};
+
+    int cross_i = 0;
+    int f2l_i = 0;
+    int self_edges_len = edges.size();
+
+    for (int i = 0; i < 12; ++i) {
+        if (cross_i == 4 && f2l_i == self_edges_len) {
+            break;
         }
 
-        eoc = edge_cross_ori;
-        epc = edge_cross_perm;
-        eof = edge_f2l_ori;
-        epf = edge_f2l_perm;
+        Edge ep_i = edge_perm[i];
+        int eo_i = edge_ori[i];
+
+        if (_edgesCross_set.find(ep_i) != _edgesCross_set.end()) {
+            edge_cross_perm[i] = ep_i;
+            edge_cross_ori[i] = eo_i;
+            ++cross_i;
+        }
+
+        if (std::find(edges.begin(), edges.end(), ep_i) != edges.end()) {
+            edge_f2l_perm[i] = ep_i;
+            edge_f2l_ori[i] = eo_i;
+            ++f2l_i;
+        }
     }
 
-    void move(CubieCube b) {
-        corner_multiply(b);
-        edge_multiply(b);
-    }
+    eoc = edge_cross_ori;
+    epc = edge_cross_perm;
+    eof = edge_f2l_ori;
+    epf = edge_f2l_perm;
+}
 
-    void set_cp(const std::array<Corner, 8>& cp) {
-        this->cp = cp;
-    }
+void CubieCube::move(CubieCube b) {
+    corner_multiply(b);
+    edge_multiply(b);
+}
 
-    void set_co(const std::array<int, 8>& co) {
-        this->co = co;
-    }
+void CubieCube::set_cp(const std::array<Corner, 8>& cp) {
+    this->cp = cp;
+}
 
-    void set_ep(const std::array<Edge, 12>& ep) {
-        this->ep = ep;
-    }
+void CubieCube::set_co(const std::array<int, 8>& co) {
+    this->co = co;
+}
 
-    void set_eo(const std::array<int, 12>& eo) {
-        this->eo = eo;
-    }
+void CubieCube::set_ep(const std::array<Edge, 12>& ep) {
+    this->ep = ep;
+}
 
-    void set_epc(const std::array<Edge, 12>& epc) {
-        this->epc = epc;
-    }
+void CubieCube::set_eo(const std::array<int, 12>& eo) {
+    this->eo = eo;
+}
 
-    void set_eoc(const std::array<int, 12>& eoc) {
-        this->eoc = eoc;
-    }
+void CubieCube::set_epc(const std::array<Edge, 12>& epc) {
+    this->epc = epc;
+}
 
-    void set_epf(const std::array<Edge, 12>& epf) {
-        this->epf = epf;
-    }
+void CubieCube::set_eoc(const std::array<int, 12>& eoc) {
+    this->eoc = eoc;
+}
 
-    void set_eof(const std::array<int, 12>& eof) {
-        this->eof = eof;
-    }
+void CubieCube::set_epf(const std::array<Edge, 12>& epf) {
+    this->epf = epf;
+}
 
-    void set_cpf(const std::array<Corner, 8>& cpf) {
-        this->cpf = cpf;
-    }
+void CubieCube::set_eof(const std::array<int, 12>& eof) {
+    this->eof = eof;
+}
 
-    void set_cof(const std::array<int, 8>& cof) {
-        this->cof = cof;
-    }
+void CubieCube::set_cpf(const std::array<Corner, 8>& cpf) {
+    this->cpf = cpf;
+}
 
-    std::array<Corner ,8> get_cp() const {
-        return cp;
-    }
+void CubieCube::set_cof(const std::array<int, 8>& cof) {
+    this->cof = cof;
+}
 
-    std::array<int, 8> get_co() const {
-        return co;
-    }
+std::array<Corner, 8> CubieCube::get_cp() const {
+    return cp;
+}
 
-    std::array<Edge, 12> get_ep() const {
-        return ep;
-    }
+std::array<int, 8> CubieCube::get_co() const {
+    return co;
+}
 
-    std::array<int, 12> get_eo() const {
-        return eo;
-    }
+std::array<Edge, 12> CubieCube::get_ep() const {
+    return ep;
+}
 
-    std::array<Edge, 12> get_epc() const {
-        return epc;
-    }
+std::array<int, 12> CubieCube::get_eo() const {
+    return eo;
+}
 
-    std::array<int, 12> get_eoc() const {
-        return eoc;
-    }
+std::array<Edge, 12> CubieCube::get_epc() const {
+    return epc;
+}
 
-    std::array<Edge, 12> get_epf() const {
-        return epf;
-    }
+std::array<int, 12> CubieCube::get_eoc() const {
+    return eoc;
+}
 
-    std::array<int, 12> get_eof() const {
-        return eof;
-    }
+std::array<Edge, 12> CubieCube::get_epf() const {
+    return epf;
+}
 
-    std::array<Corner, 8> get_cpf() const {
-        return cpf;
-    }
+std::array<int, 12> CubieCube::get_eof() const {
+    return eof;
+}
 
-    std::array<int, 8> get_cof() const {
-        return cof;
-    }
+std::array<Corner, 8> CubieCube::get_cpf() const {
+    return cpf;
+}
 
-private:
-    std::array<Corner, 8> cp;
-    std::array<int, 8> co;
-    std::array<Edge, 12> ep;
-    std::array<int, 12> eo;
-    std::array<Edge, 12> epc;
-    std::array<int, 12> eoc;
-    std::array<Edge, 12> epf;
-    std::array<int, 12> eof;
-    std::vector<Corner> corners;
-    std::vector<Edge> edges;
-    std::array<Corner, 8> cpf;
-    std::array<int, 8> cof;
-};
+std::array<int, 8> CubieCube::get_cof() const {
+    return cof;
+}
 
 std::array<CubieCube, 18> initialize_move_cube() {
     std::array<CubieCube, 18> MOVE_CUBE;
@@ -629,5 +601,3 @@ std::array<CubieCube, 18> initialize_move_cube() {
 
     return MOVE_CUBE;
 }
-
-#endif

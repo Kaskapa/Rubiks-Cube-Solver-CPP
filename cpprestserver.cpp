@@ -5,13 +5,19 @@
 #include <served/served.hpp>
 #include <future>  // For async threading
 
+
+// Inline helper function to get move string
+inline std::string getMoveString(int move) {
+    return ACTIONS.at(move) + " ";
+}
+
 // Function to process the solution
 std::string process_solution(const std::string &scramble) {
     std::vector<int> crossSol = getCrossSolution(scramble);
 
     std::string crossSolution;
     for (int move : crossSol) {
-        crossSolution += ACTIONS.at(move) + " ";
+        crossSolution += getMoveString(move);
     }
 
     std::vector<std::vector<std::vector<int>>> allSol = getSolutions(scramble, crossSolution);
@@ -21,7 +27,7 @@ std::string process_solution(const std::string &scramble) {
     response << "  \"cross_solution\":[\n";
     response << "    \"";
     for (int move : crossSol) {
-        response << ACTIONS.at(move) << " ";
+        response << getMoveString(move);
     }
     response << "\"\n";
     response << "  ],\n";
@@ -32,7 +38,7 @@ std::string process_solution(const std::string &scramble) {
         for (size_t i = 0; i < f2l_sol.size(); ++i) {
             response << "    \"";
             for (int move : f2l_sol[i]) {
-                response << ACTIONS.at(move) << " ";
+                response << getMoveString(move);
             }
             response << "\"";
             if (i != f2l_sol.size() - 1) {
