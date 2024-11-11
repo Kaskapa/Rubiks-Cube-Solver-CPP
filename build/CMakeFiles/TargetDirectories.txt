@@ -1,3 +1,0 @@
-/home/dogcoin/Documents/Coding shit/Rubiks-Cube-Solver-CPP/build/CMakeFiles/cpprestserver.dir
-/home/dogcoin/Documents/Coding shit/Rubiks-Cube-Solver-CPP/build/CMakeFiles/edit_cache.dir
-/home/dogcoin/Documents/Coding shit/Rubiks-Cube-Solver-CPP/build/CMakeFiles/rebuild_cache.dir
