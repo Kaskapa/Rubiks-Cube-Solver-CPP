@@ -231,20 +231,20 @@ private:
     }
 
     std::string get_cross_state(const CubieCube& cube) {
-        // (-1, <Edge.UF: 1>, <Edge.UL: 2>, <Edge.UB: 3>, -1, -1, -1, -1, -1, -1, -1, <Edge.UR: 0>, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, 0)
+        // (-1, 1, 2, 3, -1, -1, -1, -1, -1, -1, -1, 0, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, 0)
         std::string crossState = "(";
         std::array<Edge, 12> epc = cube.get_epc();
         std::array<int, 12> eoc = cube.get_eoc();
 
         for(int i = 0; i < 12; i++){
             if(epc[i] == Edge::UF){
-                crossState += "<Edge.UF: 1>, ";
+                crossState += "1, ";
             } else if(epc[i] == Edge::UL){
-                crossState += "<Edge.UL: 2>, ";
+                crossState += "2, ";
             } else if(epc[i] == Edge::UB){
-                crossState += "<Edge.UB: 3>, ";
+                crossState += "3, ";
             } else if(epc[i] == Edge::UR){
-                crossState += "<Edge.UR: 0>, ";
+                crossState += "0, ";
             } else {
                 crossState += "-1, ";
             }
@@ -268,13 +268,13 @@ private:
 
         for(int i = 0; i < 12; i++){
             if(epf[i] == Edge::FR){
-                edgeState += "<Edge.FR: 8>, ";
+                edgeState += "8, ";
             } else if(epf[i] == Edge::BR){
-                edgeState += "<Edge.BR: 11>, ";
+                edgeState += "11, ";
             } else if(epf[i] == Edge::BL){
-                edgeState += "<Edge.BL: 10>, ";
+                edgeState += "10, ";
             } else if(epf[i] == Edge::FL){
-                edgeState += "<Edge.FL: 9>, ";
+                edgeState += "9, ";
             } else {
                 edgeState += "-1, ";
             }
@@ -298,13 +298,13 @@ private:
 
         for(int i = 0; i < 8; i++){
             if(cpf[i] == Corner::URF){
-                cornerState += "<Corner.URF: 0>, ";
+                cornerState += "0, ";
             } else if(cpf[i] == Corner::UFL){
-                cornerState += "<Corner.UFL: 1>, ";
+                cornerState += "1, ";
             } else if(cpf[i] == Corner::UBR){
-                cornerState += "<Corner.UBR: 3>, ";
+                cornerState += "3, ";
             } else if(cpf[i] == Corner::ULB){
-                cornerState += "<Corner.ULB: 2>, ";
+                cornerState += "2, ";
             } else {
                 cornerState += "-1, ";
             }

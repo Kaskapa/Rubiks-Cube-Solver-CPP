@@ -117,20 +117,20 @@ private:
     }
 
     std::string get_cross_state(const CubieCube& cube) {
-        // (-1, <Edge.UF: 1>, <Edge.UL: 2>, <Edge.UB: 3>, -1, -1, -1, -1, -1, -1, -1, <Edge.UR: 0>, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, 0)
+        // (-1, 1, 2, 3, -1, -1, -1, -1, -1, -1, -1, 0, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, 0)
         std::string crossState = "(";
         std::array<Edge, 12> epc = cube.get_epc();
         std::array<int, 12> eoc = cube.get_eoc();
 
         for(int i = 0; i < 12; i++){
             if(epc[i] == Edge::UF){
-                crossState += "<Edge.UF: 1>, ";
+                crossState += "1, ";
             } else if(epc[i] == Edge::UL){
-                crossState += "<Edge.UL: 2>, ";
+                crossState += "2, ";
             } else if(epc[i] == Edge::UB){
-                crossState += "<Edge.UB: 3>, ";
+                crossState += "3, ";
             } else if(epc[i] == Edge::UR){
-                crossState += "<Edge.UR: 0>, ";
+                crossState += "0, ";
             } else {
                 crossState += "-1, ";
             }

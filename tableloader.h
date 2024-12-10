@@ -74,8 +74,6 @@ class Tableloader{
             std::unordered_map<std::string, int> heuristics91011 = loadHeuristic("heuristics/heuristicsJson91011.csv");
             std::unordered_map<std::string, int> heuristics891011 = loadHeuristic("heuristics/heuristicsJson891011.csv");
             std::unordered_map<std::string, int> heuristics0123 = loadHeuristic("heuristics/heuristicsJson0123.csv");
-            std::unordered_map<std::string, int> heuristicsEdgeOLL = loadHeuristic("heuristics/heuristicsJsonEdgeOLL.csv");
-            std::unordered_map<std::string, int> heuristicsCornerOLL = loadHeuristic("heuristics/heuristicsJsonCornerOLL.csv");
 
 
             allHeuristics["0"] = heuristics0;
@@ -109,8 +107,6 @@ class Tableloader{
             allHeuristics["91011"] = heuristics91011;
             allHeuristics["891011"] = heuristics891011;
             allHeuristics["0123"] = heuristics0123;
-            allHeuristics["edgeOLL"] = heuristicsEdgeOLL;
-            allHeuristics["cornerOLL"] = heuristicsCornerOLL;
         }
         std::unordered_map<std::string, int> getHeuristics(std::string key){
             return allHeuristics[key];
