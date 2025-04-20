@@ -431,6 +431,142 @@ std::vector<std::vector<std::vector<int>>> getSolutions(std::string scramble, st
     return all_sol;
 }
 
+
+std::vector<std::vector<std::vector<int>>> getSolutionsOneByOne(std::string scramble, std::string crossSolution, std::vector<int> order){
+    CubieCube cube = CubieCube();
+    cube = do_algorithm(scramble, cube);
+
+    std::vector<Corner> solved_f2l_corners = {};
+    std::vector<Edge> solved_f2l_edges = {};
+
+    std::array<Corner, 4> f2l_corners = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR};
+    std::array<Edge, 4> f2l_edges = {Edge::FR, Edge::FL, Edge::BL, Edge::BR};
+
+    std::vector<std::array<Corner, 4>> f2l_corners_combinations;
+    std::vector<std::array<Edge, 4>> f2l_edges_combinations;
+
+    std::array<Corner, 4> corners = {Corner::URF, Corner::UFL, Corner::ULB, Corner::UBR};
+    std::array<Edge, 4> edges = {Edge::FR, Edge::FL, Edge::BL, Edge::BR};
+
+    std::array<Corner, 4> ordered_corners;
+    std::array<Edge, 4> ordered_edges;
+
+    for (int i = 0; i < 4; ++i) {
+        ordered_corners[i] = corners[order[i]];
+        ordered_edges[i] = edges[order[i]];
+    }
+
+    f2l_corners_combinations.push_back(ordered_corners);
+    f2l_edges_combinations.push_back(ordered_edges);
+
+
+    std::vector<std::vector<std::vector<int>>> all_sol = {};
+    std::map<std::array<std::string, 6>, std::vector<int>> sol_heur = {};
+
+    int startTime_main = clock();
+    for(int j = 0; j < f2l_corners_combinations.size(); j++){
+        std::vector<std::vector<int>> f2l_sol = {};
+        std::array<Corner, 4> f2l_corners = f2l_corners_combinations[j];
+        std::array<Edge, 4> f2l_edges = f2l_edges_combinations[j];
+
+        for(int i = 0; i < f2l_corners.size(); i++){
+            std::cout << "F2L " << i + 1 << '\n';
+
+            std::vector<Corner> corners = {};
+            std::vector<Edge> edges = {};
+
+            for(int k = 0; k <= i; k++){
+                corners.push_back(f2l_corners[k]);
+                edges.push_back(f2l_edges[k]);
+            }
+
+            cube = CubieCube(corners, edges);
+            cube = do_algorithm(scramble, cube);
+            cube = do_algorithm(crossSolution, cube);
+
+            for(int k = 0; k < f2l_sol.size() ; k++){
+                for(int l = 0; l < f2l_sol[k].size(); l++){
+                    cube.move(f2l_sol[k][l], MOVE_CUBE[f2l_sol[k][l]]);
+                }
+            }
+
+            std::vector<int> cornerStr, edgeStr;
+
+            for (Corner corner : corners) {
+                cornerStr.push_back(static_cast<int>(corner));
+            }
+            for (Edge edge : edges) {
+                edgeStr.push_back(static_cast<int>(edge));
+            }
+
+            std::sort(cornerStr.begin(), cornerStr.end());
+            std::sort(edgeStr.begin(), edgeStr.end());
+
+            std::string cornerStrJoined;
+            std::string edgeStrJoined;
+            for (int val : cornerStr) {
+                cornerStrJoined += std::to_string(val);
+            }
+            for (int val : edgeStr) {
+                edgeStrJoined += std::to_string(val);
+            }
+
+            std::cout << cornerStrJoined << '\n';
+            std::cout << edgeStrJoined << '\n';
+
+            std::string cofToString = "";
+            std::string eofToString = "";
+            std::string cpfToString = "";
+            std::string epfToString = "";
+            for(Corner corner: cube.get_cpf()){
+                cpfToString += std::to_string(static_cast<int>(corner));
+            }
+            for(int val: cube.get_cof()){
+                cofToString += std::to_string(val);
+            }
+            for(Edge edge: cube.get_epf()){
+                epfToString += std::to_string(static_cast<int>(edge));
+            }
+            for(int val: cube.get_eof()){
+                eofToString += std::to_string(val);
+            }
+
+            std::array<std::string, 6> key = {cornerStrJoined, edgeStrJoined, cofToString, eofToString, cpfToString, epfToString};
+
+            if(sol_heur.find(key) != sol_heur.end()){
+                f2l_sol.push_back(sol_heur[key]);
+                continue;
+            }
+
+            IDA_star_F2L ida_star_f2l = IDA_star_F2L(corners, edges, cornerStrJoined, edgeStrJoined);
+            int startTime = clock();
+            std::vector<int> moves = ida_star_f2l.run(cube);
+
+            f2l_sol.push_back(moves);
+            int endTime = clock();
+
+            std::cout << "Time: " << (endTime - startTime) / (double) CLOCKS_PER_SEC << '\n';
+
+            sol_heur[key] = moves;
+        }
+        std::cout << "Scramble: " << scramble << '\n';
+        std::cout << "Cross solution: " << crossSolution << '\n';
+
+        for(std::vector<int> alg : f2l_sol){
+            for(int move : alg){
+                std::cout << ACTIONS.at(move) << " ";
+            }
+            std::cout << '\n';
+        }
+
+        all_sol.push_back(f2l_sol);
+    }
+    int endTime_main = clock();
+    std::cout << "COMPLETE TIME: " << (endTime_main - startTime_main) / (double) CLOCKS_PER_SEC << '\n';
+
+    return all_sol;
+}
+
 // int main(){
 //     std::string scramble = "D' F2 U2 L B D' R' F' L U' F' L' U' B2 D F2 R D L F U' L' F";
 //     std::string crossSolution = "F B' R F D B2";
