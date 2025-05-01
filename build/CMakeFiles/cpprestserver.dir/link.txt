@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -Wl,--dependency-file=CMakeFiles/cpprestserver.dir/link.d CMakeFiles/cpprestserver.dir/cpprestserver.cpp.o -o cpprestserver  -Wl,-rpath,/usr/local/lib /usr/local/lib/libserved.so

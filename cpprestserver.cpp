@@ -141,7 +141,7 @@ int main(int argc, const char *argv[]) {
     std::cout << "  curl \"http://localhost:8123/api/v1/greeting_one_by_one?scramble='R U R U'&order=1,2,3,4\"" << std::endl;
 
     // Run server with multiple threads
-    served::net::server server("127.0.0.1", "8123", mux);
+    served::net::server server("0.0.0.0", "8123", mux);
     server.run(10);  // 10 threads for handling requests
 
     return (EXIT_SUCCESS);
