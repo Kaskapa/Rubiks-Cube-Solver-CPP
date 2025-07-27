@@ -3,14 +3,9 @@ A RESTful API for solving Rubik's Cubes, implemented in C++ with served. Based o
 
 ## Features
 - HTTP API endpoint for cube solving
-- Accepts cube state in standard notation
+- Accepts cube state in standard WCA scramble notations
 - Returns solution in standard move notation
 - Lightweight and fast C++ implementation
-
-## Cube Notation
-Uses standard cube notation:
-- Faces: U (Up), D (Down), L (Left), R (Right), F (Front), B (Back)
-- Moves: X (clockwise), X' (counter-clockwise), X2 (180°)
 
 ## Purpose
 Started as a pet project to explore search algorithms and their use cases in real life, then went in too deap and made it as my qualifications project for my degree.
