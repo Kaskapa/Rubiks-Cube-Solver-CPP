@@ -15,4 +15,4 @@ Uses standard cube notation:
 ## Purpose
 Started as a pet project to explore search algorithms and their use cases in real life, then went in too deap and made it as my qualifications project for my degree.
 
-Documenation: 
+Documenation: [Rubiks-Cube-Solver-CPP/Veveris_KVD_Rubika_kubika_analizators.pdf at main · Kaskapa/Rubiks-Cube-Solver-CPP](https://github.com/Kaskapa/Rubiks-Cube-Solver-CPP/blob/main/Veveris_KVD_Rubika_kubika_analizators.pdf)
