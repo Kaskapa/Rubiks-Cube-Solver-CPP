@@ -37,7 +37,7 @@ Before building, ensure you have the following installed:
    ```
    *Note: This maps the internal server port to your local machine. Ensure the port matches your `cpprestserver.cpp` configuration.*
 
-## 🔌 API Usage
+## API Usage
 
 The solver typically accepts the cube state as a string parameter.
 
@@ -46,5 +46,5 @@ The solver typically accepts the cube state as a string parameter.
 curl http://localhost:8123/solve?state="R U R' U'"
 ```
 
-## 📚 Documentation
+## Documentation
 For a detailed analysis of the algorithm and implementation, please refer to the Technical Documentation PDF.
