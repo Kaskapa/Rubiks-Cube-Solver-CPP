@@ -16,14 +16,6 @@ A high-performance RESTful API for solving 3x3 Rubik's Cubes, implemented in C++
 - **Asynchronous I/O:** Boost.ASIO.
 - **Build System:** CMake.
 
-## Prerequisites
-
-Before building, ensure you have the following installed:
-
-- **Boost C++ Libraries** (version 1.53 or newer)
-- **CMake** (version 3.0 or newer)
-- A C++ compiler (GCC 4.8+, Clang 3.5+, or MSVC)
-
 ## Building and Running
 
 1. **Build the Docker Image:**
