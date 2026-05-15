@@ -1,3 +1,0 @@
-/home/kristijans120/Rubiks-Cube-Solver-CPP/build/CMakeFiles/cpprestserver.dir
-/home/kristijans120/Rubiks-Cube-Solver-CPP/build/CMakeFiles/edit_cache.dir
-/home/kristijans120/Rubiks-Cube-Solver-CPP/build/CMakeFiles/rebuild_cache.dir

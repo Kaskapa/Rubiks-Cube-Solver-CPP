@@ -1,0 +1,52 @@
+# Build artifacts
+/build/
+/served.build/
+/bin/
+/lib/
+
+# Object files
+*.o
+*.lo
+*.la
+*.obj
+*.lib
+*.dll
+*.so
+*.dylib
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+_CPack_Packages/
+
+# Bazel generated files
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+bazel-served/
+bazel-served-test/
+
+# Package files
+*.deb
+*.rpm
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*~
+*.bak
+*.swp
+*.suo
+*.user
+*.ncb
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+
+# Test output
+/test_output/

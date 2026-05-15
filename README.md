@@ -1,16 +1,50 @@
-# Rubik's Cube Solver API - C++
-A RESTful API for solving Rubik's Cubes, implemented in C++ with served. Based on a previous solver created in Python: [Kaskapa/Rubiks-cube-solver-3x3: Trying to understand the rubik's cube solving method by Herbert Kociemba.](https://github.com/Kaskapa/Rubiks-cube-solver-3x3)
+# Rubik's Cube Solver API
+
+A high-performance RESTful API for solving 3x3 Rubik's Cubes, implemented in C++ using the [Served](https://github.com/meltwater/served) web framework. This project explores search algorithms and their real-world applications, originally developed as a qualification project.
 
 ## Features
-- HTTP API endpoint for cube solving
-- Accepts cube state in standard WCA scramble notations
-- Returns solution in standard move notation
-- Lightweight and fast C++ implementation
 
-## Purpose
-Started as a pet project to explore search algorithms and their use cases in real life, then went in too deap and made it as my qualifications project for my degree.
+- **Fast Solver:** Leverages C++ efficiency to find cube solutions quickly.
+- **WCA Notation:** Accepts cube states in standard World Cube Association scramble notation.
+- **RESTful API:** Easy-to-use HTTP endpoints for integration with web or mobile apps.
+- **Lightweight:** Minimal overhead thanks to the `served` library and Boost.ASIO.
 
-Documenation: [Rubiks-Cube-Solver-CPP/Veveris_KVD_Rubika_kubika_analizators.pdf at main · Kaskapa/Rubiks-Cube-Solver-CPP](https://github.com/Kaskapa/Rubiks-Cube-Solver-CPP/blob/main/Veveris_KVD_Rubika_kubika_analizators.pdf)
+## Tech Stack
 
-Demo:
-https://github.com/user-attachments/assets/91007ac7-6b92-45db-bbf8-7e7ab8554b5d
+- **Language:** C++11 or higher.
+- **Web Framework:** Served.
+- **Asynchronous I/O:** Boost.ASIO.
+- **Build System:** CMake.
+
+## Prerequisites
+
+Before building, ensure you have the following installed:
+
+- **Boost C++ Libraries** (version 1.53 or newer)
+- **CMake** (version 3.0 or newer)
+- A C++ compiler (GCC 4.8+, Clang 3.5+, or MSVC)
+
+## Building and Running
+
+1. **Build the Docker Image:**
+   ```bash
+   docker build -t rubiks-solver .
+   ```
+
+2. **Run the Container:**
+   ```bash
+   docker run -p 8123:8123 rubiks-solver
+   ```
+   *Note: This maps the internal server port to your local machine. Ensure the port matches your `cpprestserver.cpp` configuration.*
+
+## 🔌 API Usage
+
+The solver typically accepts the cube state as a string parameter.
+
+**Example Request:**
+```bash
+curl http://localhost:8123/solve?state="R U R' U'"
+```
+
+## 📚 Documentation
+For a detailed analysis of the algorithm and implementation, please refer to the Technical Documentation PDF.
